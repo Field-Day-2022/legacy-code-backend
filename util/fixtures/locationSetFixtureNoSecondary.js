@@ -1,0 +1,17 @@
+module.exports = [
+  { primary: 'Avondale' },
+  { primary: 'Buckeye' },
+  { primary: 'Cave Creek' },
+  { primary: 'Chandler' },
+  { primary: 'Gilbert' },
+  { primary: 'Glendale' },
+  { primary: 'Goodyear' },
+  { primary: 'Litchfield Park' },
+  { primary: 'Peoria' },
+  { primary: 'Phoenix' },
+  { primary: 'Mesa' },
+  { primary: 'Queen Creek' },
+  { primary: 'Scottsdale' },
+  { primary: 'Tempe' },
+  { primary: 'Tolleson' },
+];

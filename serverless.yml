@@ -1,0 +1,38 @@
+service: field-day-service
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  stage: production
+  region: us-east-1
+
+functions:
+  app:
+    handler: handler.handler
+    environment:
+      NODE_ENV: production
+      REACT_APP_BATEMAN_BUILD: true
+      RDS_HOSTNAME: #ADD_RDS_Endpoint_URL#
+      RDS_USERNAME: #ADD_username_to-access-the_database#
+      RDS_PASSWORD: #ADD_password_to-access-the_database#
+      RDS_PORT: 3306
+      RDS_DATABASE_NAME: #ADD_name_of_the_field-day_database#
+    vpc:
+      securityGroupIds: 
+        - #ADD security-id, probably starts with "sg-"#
+      subnetIds:
+        - subnet-#ADD id a here#
+        - subnet-#ADD id b here#
+        - subnet-#ADD id c here#        
+    events:
+      - http:
+          path: /
+          method: ANY
+          cors: true
+      - http:
+          path: /{proxy+}
+          method: ANY
+          cors: true
+
+# plugins:
+#  - serverless-offline
