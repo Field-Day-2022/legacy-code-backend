@@ -2,7 +2,7 @@ const fs = require('fs');
 const jwt = require('jsonwebtoken');
 
 const OPTIONS = {
-  issuer: "FieldDat - Web",
+  issuer: "FieldDay - Web",
   subject: "krshelle@asu.edu",
   audience: "fieldday.asu.edu",
   expiresIn: "15m",
