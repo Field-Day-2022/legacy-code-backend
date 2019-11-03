@@ -10,7 +10,7 @@ class TokenController {
   async post(req, res, next) {
     try {
       let token = this.generator.post();
-      res.json({token: token});
+      res.json({token: token, refresh: ""});
     } catch (err) {
       console.error(err);
       logger.error(err);
