@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const Controller = require('./token.controller');
 
-const controller = new Controller();
+const controller = new Controller(global.db);
 
 router
   .route('/')

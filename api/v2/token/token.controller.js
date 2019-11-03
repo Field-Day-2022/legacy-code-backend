@@ -1,5 +1,6 @@
 const logger = require('../../../util/logger');
 const TokenGenerator = require('./Token');
+const LoginRepository = require('../login/Login');
 
 class TokenController {
 
@@ -7,8 +8,9 @@ class TokenController {
    * Initializes the token generator and binds the post endpoint to the
    * post endpoint of the Token class.
    */
-  constructor() {
+  constructor(dao) {
     this.generator = new TokenGenerator();
+    this.loginRepo = new LoginRepository(dao);
     this.post = this.post.bind(this);
   }
 
@@ -24,8 +26,28 @@ class TokenController {
    */
   async post(req, res, next) {
     try {
-      let token = this.generator.post();
-      res.json({token: token, refresh: ""});
+      // get the user name and password from the body
+      let username = req.body.username;
+      let password = req.body.password;
+      let auth = await this.loginRepo.login({username, password});
+
+      // if the user fails to authenticate, respond saying the username
+      // or password was incorrect
+      if(!auth['auth']) {
+        res.json({
+          auth: false,
+          access_level: auth["access_level"],
+          message: "Username/password incorrect"
+        });
+
+      } else {
+        let token = this.generator.post();
+        res.json({
+          auth: true,
+          access_level: auth['access_level'],
+          token: token,
+        });
+      }
     } catch (err) {
       console.error(err);
       logger.error(err);
