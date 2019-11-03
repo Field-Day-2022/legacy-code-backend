@@ -39,16 +39,35 @@ const PAYLOAD = {
 };
 
 class JWTToken {
+
+  /**
+   * Returns a token generated using the appropriate options and payload.
+   * The token contains a payload of all the available endpoints the user
+   * can access.
+   *
+   * @returns {undefined|*} The signed jwt token.
+   */
   getJwtToken() {
     let privateKey = fs.readFileSync('./private.key', 'utf8');
     return jwt.sign(PAYLOAD, privateKey, OPTIONS);
   }
 
+  /**
+   * Verifies the passed JWT token.
+   *
+   * @param token
+   * @returns {*} Whether or not the token is valid.
+   */
   verifyJwtToken(token) {
     let publicKey = fs.readFileSync('./public.key', 'utf8');
     return jwt.verify(token, publicKey, OPTIONS);
   }
 
+  /**
+   * Handles the token post request by generating and returning a JWT token.
+   *
+   * @returns {*} The signed jwt token.
+   */
   post() {
     return this.getJwtToken();
   }
