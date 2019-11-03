@@ -14,6 +14,7 @@ router.use('/deleted_item', require('./deleted_item/deleted_item.router'));
 router.use('/contributes_to', require('./contributes_to/contributes_to.router'));
 router.use('/belongs_to', require('./belongs_to/belongs_to.router'));
 router.use('/login', require('./login/login.router'));
+router.use('/token', require('./token/token.router'));
 
 //	export router for '/api'
 module.exports = router;
