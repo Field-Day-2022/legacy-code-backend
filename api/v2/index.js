@@ -1,6 +1,10 @@
 //	initialize an express router
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const verifyJWT_MW = require('../../middleware/jwt.middleware');
+
+// jwt auth middleware
+router.all('*', verifyJWT_MW);
 
 //	set routers for '/api/v2' API path
 router.use('/sync', require('./sync/sync.router'));
