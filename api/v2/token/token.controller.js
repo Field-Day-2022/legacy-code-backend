@@ -1,4 +1,3 @@
-const logger = require('../../../util/logger');
 const TokenGenerator = require('./Token');
 const LoginRepository = require('../login/Login');
 
@@ -29,29 +28,28 @@ class TokenController {
       // get the user name and password from the body
       let username = req.body.username;
       let password = req.body.password;
-      let auth = await this.loginRepo.login({username, password});
+      let user = await this.loginRepo.login({ username, password });
 
       // if the user fails to authenticate, respond saying the username
       // or password was incorrect
-      if(!auth['auth']) {
+      if (!user['auth']) {
         res.json({
           auth: false,
-          access_level: auth["access_level"],
+          access_level: 0,
           message: "Username/password incorrect"
         });
-
       } else {
-        let token = this.generator.post();
+        // signs and returns a token
+        let token = this.generator.getJwtToken(user['access_level']);
         res.json({
-          auth: true,
-          access_level: auth['access_level'],
+          auth: user['auth'],
+          access_level: user['access_level'],
+          message: 'User successfully authenticated',
           token: token,
         });
       }
-    } catch (err) {
-      console.error(err);
-      logger.error(err);
-      res.sendStatus(500);
+    } catch(err) {
+      console.log(err);
     }
   }
 }

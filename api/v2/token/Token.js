@@ -9,34 +9,6 @@ const OPTIONS = {
   algorithm: "RS256"
 };
 
-const PAYLOAD = {
-  policy: `
-  "project":
-    "\`/api/v2/project\` (GET, POST)
-    \`/api/v2/project/:project_id\` (GET, PUT, DELETE)",
-  "data_form":
-    "\`/api/v2/data_form\` (GET, POST)
-    \`/api/v2/data_form/:form_id\` (GET, PUT, DELETE)",
-  "data_entry":
-    "\`/api/v2/data_entry\` (GET, POST)
-    \`/api/v2/data_entry/:session_id/:entry_id\` (GET, PUT, DELETE)",
-  "session":
-    "\`/api/v2/session\` (GET, POST)
-    \`/api/v2/session/:session_id\` (GET, PUT, DELETE)",
-  "answer_set":
-    "\`/api/v2/answer_set\` (GET, POST)
-    \`/api/v2/answer_set/:set_name\` (GET, PUT, DELETE)",
-  "deleted_item":
-    "\`/api/v2/deleted_item\` (GET, POST)
-    \`/api/v2/deleted_item/:deleted_id\` (GET, PUT, DELETE)",
-  "contributes_to":
-    "\`/api/v2/contributes_to\` (GET, POST)
-    \`/api/v2/contributes_to/:user_id/:project_id\` (GET, PUT, DELETE)",
-  "belongs_to":
-    "\`/api/v2/belongs_to\` (GET, POST)
-    \`/api/v2/belongs_to/:form_id/:project_id\` (GET, PUT, DELETE)",
-  `
-};
 
 class JWTToken {
 
@@ -45,31 +17,47 @@ class JWTToken {
    * The token contains a payload of all the available endpoints the user
    * can access.
    *
+   * @param {number} access_level - The granted access level of the user
+   *  (null by default).
    * @returns {undefined|*} The signed jwt token.
    */
-  getJwtToken() {
-    let privateKey = fs.readFileSync('./private.key', 'utf8');
-    return jwt.sign(PAYLOAD, privateKey, OPTIONS);
+  getJwtToken(access_level) {
+    try {
+      let payload = {
+        access_level: access_level,
+        auth: true,
+      };
+      let privateKey = fs.readFileSync('./private.key', 'utf8');
+      return jwt.sign(payload, privateKey, OPTIONS);
+    } catch(err) {
+      throw err;
+    }
   }
 
   /**
    * Verifies the passed JWT token.
    *
-   * @param token
+   * @param {String} token - The signed JWT token to be verified.
    * @returns {*} Whether or not the token is valid.
    */
   verifyJwtToken(token) {
-    let publicKey = fs.readFileSync('./public.key', 'utf8');
-    return jwt.verify(token, publicKey, OPTIONS);
+    try {
+      let publicKey = fs.readFileSync('./public.key', 'utf8');
+      return jwt.verify(token, publicKey, OPTIONS);
+    } catch(err) {
+      throw err;
+    }
   }
 
   /**
    * Handles the token post request by generating and returning a JWT token.
    *
+   * @param {number} access_level - The granted access level of the user (null
+   *  by default).
    * @returns {*} The signed jwt token.
    */
-  post() {
-    return this.getJwtToken();
+  post(access_level) {
+    return this.getJwtToken(access_level);
   }
 }
 
