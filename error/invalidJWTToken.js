@@ -1,3 +1,6 @@
+/**
+ * Error used to catch additional JWT authentication errors.
+ */
 class InvalidJWTToken extends Error {
   constructor (message) {
     super(message);

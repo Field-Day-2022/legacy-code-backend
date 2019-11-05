@@ -1,6 +1,13 @@
 const JWTToken = require('../api/v2/token/Token');
 const InvalidJWTToken = require('../error/invalidJWTToken');
 
+/**
+ * Middleware used to verify a JWT token.
+ *
+ * @param req - The http request object
+ * @param res - The http response object
+ * @param next - The next endpoint in the http response sequence
+ */
 function verifyJWT_MW(req, res, next) {
   // check for endpoints that don't require jwt auth
   let url = req.originalUrl;
