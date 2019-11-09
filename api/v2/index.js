@@ -1,6 +1,10 @@
 //	initialize an express router
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const verifyJWT_MW = require('../../middleware/jwt.middleware');
+
+// jwt auth middleware
+router.all('*', verifyJWT_MW);
 
 //	set routers for '/api/v2' API path
 router.use('/sync', require('./sync/sync.router'));
@@ -14,6 +18,7 @@ router.use('/deleted_item', require('./deleted_item/deleted_item.router'));
 router.use('/contributes_to', require('./contributes_to/contributes_to.router'));
 router.use('/belongs_to', require('./belongs_to/belongs_to.router'));
 router.use('/login', require('./login/login.router'));
+router.use('/token', require('./token/token.router'));
 
 //	export router for '/api'
 module.exports = router;
