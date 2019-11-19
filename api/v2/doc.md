@@ -1,5 +1,9 @@
 # API ENDPOINTS
 
+## Token
+
+`/api/v2/token` (POST)
+
 ## Sync
 
 `/api/v2/sync` (GET)
