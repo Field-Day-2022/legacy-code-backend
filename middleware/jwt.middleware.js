@@ -9,14 +9,6 @@ const InvalidJWTToken = require('../error/invalidJWTToken');
  * @param next - The next endpoint in the http response sequence
  */
 function verifyJWT_MW(req, res, next) {
-  // check for endpoints that don't require jwt auth
-  let url = req.originalUrl;
-  console.log(url);
-  if (url === '/api/v2/login' || url === '/api/v2/token') {
-    next();
-    return
-  }
-
   // get token from header
   let header = req.headers['authorization'] || '';
   let token = header.split(/\s+/).pop() || '';
