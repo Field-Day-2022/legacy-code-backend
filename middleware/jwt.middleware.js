@@ -12,7 +12,7 @@ function verifyJWT_MW(req, res, next) {
   // check for endpoints that don't require jwt auth
   let url = req.originalUrl;
   console.log(url);
-  if (url === '/api/v2/login' || url === '/api/v2/token') {
+  if (url.includes('/api/v2/login') || url.includes('/api/v2/token') || url.includes('/api/v2/docs/')) {
     next();
     return
   }

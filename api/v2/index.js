@@ -2,9 +2,15 @@
 const express = require('express');
 const router = express.Router();
 const verifyJWT_MW = require('../../middleware/jwt.middleware');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('../../swagger.json');
 
 // jwt auth middleware
 router.all('*', verifyJWT_MW);
+
+// swagger ui (w/o explorer)
+router.use('/docs', swaggerUi.serve);
+router.get('/docs', swaggerUi.setup(swaggerDocument));
 
 //	set routers for '/api/v2' API path
 router.use('/sync', require('./sync/sync.router'));
