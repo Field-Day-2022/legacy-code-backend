@@ -17,7 +17,6 @@ function verifyJWT_MW(req, res, next) {
   // verify the token
   try {
     let verify = generator.verifyJwtToken(token);
-    console.log('Verified: ' + JSON.stringify(verify));
 
     if (!verify['auth']) {
       throw new InvalidJWTToken('Invalid JWT token');
