@@ -9,6 +9,12 @@ class ProjectRepository {
     return this.dao.all(sql, []);
   }
 
+  getNames() {
+    const sql = `SELECT project_name, project_id FROM Project`;
+
+    return this.dao.all(sql, []);
+  }
+
   getOne(project_id) {
     const sql = `SELECT * FROM Project WHERE project_id = ?`;
 

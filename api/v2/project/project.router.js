@@ -18,4 +18,8 @@ router
   .put(controller.update)
   .delete(controller.delete);
 
+router
+  .route('/names')
+  .get(controller.getNames);
+
 module.exports = router;

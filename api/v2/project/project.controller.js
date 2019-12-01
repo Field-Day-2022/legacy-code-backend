@@ -27,6 +27,16 @@ class ProjectController {
     }
   }
 
+  async getNames(req, res, next) {
+    try {
+      const rows = await this.repository.getNames()
+      res.json(rows);
+    } catch (err) {
+      console.error(err);
+      res.sendStatus(500);
+    }
+  }
+
   async getOne(req, res, next) {
     try {
       const row = await this.repository.getOne(req.project_id);
