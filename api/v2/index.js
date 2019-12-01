@@ -13,7 +13,7 @@ router.get('/docs', swaggerUi.setup(swaggerDocument));
 router.use('/sync', verifyJWT_MW, require('./sync/sync.router'));
 router.use('/user', verifyJWT_MW, require('./user/user.router'));
 router.use('/project', require('./project/project.router'));
-router.use('/data_form', verifyJWT_MW, require('./data_form/data_form.router'));
+router.use('/data_form', require('./data_form/data_form.router'));
 router.use('/data_entry', verifyJWT_MW, require('./data_entry/data_entry.router'));
 router.use('/session', verifyJWT_MW, require('./session/session.router'));
 router.use('/answer_set', verifyJWT_MW, require('./answer_set/answer_set.router'));
