@@ -7,7 +7,7 @@ class Sync {
     async getAll(project_id) {
         let result = {};
         result.updates = 0;
-
+	
         const users = await get(this.dao, getAllRows("User", project_id));
         result.updates += users.length;
         result.user = users.map(user => this.apiUrl + "User/" + user.user_id);
@@ -31,7 +31,7 @@ class Sync {
         result.belongsTo = belongsTo.map(
             bTo => this.apiUrl + "belongs_to/" + bTo.form_id + "/" + bTo.project_id
         );
-
+	
         const answerSets = await get(this.dao, getAllRows("AnswerSet", project_id));
         result.updates += answerSets.length;
         result.answerSet = answerSets.map(set => this.apiUrl + "answer_set/" + set.set_name);
@@ -51,8 +51,8 @@ class Sync {
     async getLatest(timestamp, project_id) {
         let result = {};
         result.updates = 0;
-
-        const users = await get(this.dao, getLatestRows("User", timestamp, project_id));
+	
+	const users = await get(this.dao, getLatestRows("User", timestamp, project_id));
         result.updates += users.length;
         result.user = users.map(user => this.apiUrl + "User/" + user.user_id);
 
@@ -76,7 +76,7 @@ class Sync {
             bTo => this.apiUrl + "belongs_to/" + bTo.form_id + "/" + bTo.project_id
         );
 
-        const answerSets = await get(this.dao, getLatestRows("AnswerSet", timestamp, project_id));
+	const answerSets = await get(this.dao, getLatestRows("AnswerSet", timestamp, project_id));
         result.updates += answerSets.length;
         result.answerSet = answerSets.map(set => this.apiUrl + "answer_set/" + set.set_name);
 
@@ -84,7 +84,7 @@ class Sync {
         result.updates += sessions.length;
         result.session = sessions.map(session => this.apiUrl + "session/" + session.session_id);
 
-        const dataEntries = await get(this.dao, getLatestRows("DataEntry" , timestamp, project_id));
+        const dataEntries = await get(this.dao, getLatestRows("DataEntry", timestamp, project_id));
         result.updates += dataEntries.length;
         result.dataEntry = dataEntries.map(
             entry => this.apiUrl + "data_entry/" + entry.session_id + "/" + entry.entry_id
@@ -119,8 +119,7 @@ async function get(dao, query) {
 }
 
 var getAllRows = function(tableName, project_id) {
-    if (project_id === undefined || tableName == "AnswerSet"
-        || tableName === "User") {
+    if (tableName === "AnswerSet" || tableName === "User") {
 	return "SELECT * FROM " + tableName;
     } else if (tableName === "DataForm") { 
         return "SELECT DataForm.form_id, DataForm.form_name,"
@@ -135,11 +134,8 @@ var getAllRows = function(tableName, project_id) {
 };
 
 var getLatestRows = function(tableName, timestamp, project_id) {
-    if (project_id === undefined || tableName == "AnswerSet"
-        || tableName === "User") {    
-        return "SELECT * "
-        + "FROM " + tableName 
-        + " WHERE date_modified >= " + timestamp;
+    if (tableName === "AnswerSet" || tableName === "User") {
+	return "SELECT * FROM " + tableName + " WHERE date_modified >= " + timestamp;
     } else if (tableName === "DataForm") {
         return "SELECT DataForm.form_id, DataForm.form_name,"
         + " DataForm.template_json, DataForm.date_modified"

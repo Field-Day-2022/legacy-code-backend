@@ -7,6 +7,7 @@
 ## Sync
 
 `/api/v2/sync` (GET)
+`/api/v2/sync/:timestamp` (GET)
 
 ## User
 
