@@ -44,7 +44,6 @@ class SessionController {
 
   async post(req, res, next) {
     try {
-      // logger.log(req.body);
       await this.repository.post(req.body);
       res.sendStatus(204);
     } catch (err) {
@@ -55,7 +54,9 @@ class SessionController {
 
   async update(req, res, next) {
     try {
-      await this.repository.update(req.body);
+      let put = await this.repository.update(req.body);
+      console.log(put);
+      console.log(req.body);
       res.sendStatus(204);
     } catch (err) {
       console.error(err);
