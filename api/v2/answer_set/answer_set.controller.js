@@ -1,3 +1,10 @@
+/*
+ * File: answer_set_controller.js
+ * Version: 1.01
+ * Date: 2020-02-27
+ * Description: Controller for the answer_set router.
+ */
+
 const logger = require('../../../util/logger');
 const _ = require('lodash');
 const AnswerSetRepository = require('./AnswerSet');
