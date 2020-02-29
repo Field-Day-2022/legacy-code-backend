@@ -55,7 +55,10 @@ class AnswerSetController {
     
  /**
   * Retrieves the set with the matching name from the repository.
-  */
+  * @param req the client request
+  * @param res the response to be sent back to the client
+  * @param next the next function to be called 
+  */ 
   async getOne(req, res, next) {
     try {
       const row = await this.repository.getOne(req.set_name);
@@ -69,7 +72,14 @@ class AnswerSetController {
       res.sendStatus(500);
     }
   }
-
+  
+  /**
+   * Posts the answer set data stored in the body of the request
+   * to the database.
+   * @param req the client request
+   * @param res the response to be sent back to the client
+   * @param next the next function to be called 
+   */
   async post(req, res, next) {
     try {
       await this.repository.post(req.body);
@@ -79,7 +89,14 @@ class AnswerSetController {
       res.sendStatus(500);
     }
   }
-
+  
+  /**
+   * Updates the data of an existing answer set in the database
+   * with the new data stored in the body of the request.
+   * @param req the client request
+   * @param res the response to be sent back to the client
+   * @param next the next function to be called 
+   */
   async update(req, res, next) {
     try {
       await this.repository.update(req.body);
@@ -89,7 +106,13 @@ class AnswerSetController {
       res.sendStatus(500);
     }
   }
-
+    
+  /**
+   * Deletes the answer set with given set name from the database.
+   * @param req the client request
+   * @param res the response to be sent back to the client
+   * @param next the next function to be called 
+   */
   async delete(req, res, next) {
     try {
       await this.repository.delete(req.set_name);
