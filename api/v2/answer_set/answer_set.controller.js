@@ -9,6 +9,11 @@ const logger = require('../../../util/logger');
 const _ = require('lodash');
 const AnswerSetRepository = require('./AnswerSet');
 
+/**
+ * Takes requests from the router and calls the appropriate function.
+ * @version 1.01
+ * @since 2020-02-27
+ */
 class AnswerSetController {
   constructor(dao) {
     this.repository = new AnswerSetRepository(dao);
@@ -20,11 +25,24 @@ class AnswerSetController {
     this.delete = this.delete.bind(this);
   }
 
+  /**
+   * Saves the name of the answer set to the request. 
+   * @param req the client request
+   * @param res the response to be sent back to the client
+   * @param next the next function to be called
+   * @param set_name the name of the answer set
+   */
   set_name(req, res, next, set_name) {
     req.set_name = set_name;
     next();
   }
-
+  
+  /**
+   * Retrieves all of the answer sets from the repository.
+   * @param req the client request
+   * @param res the response to be sent back to the client
+   * @param next the next function to be called 
+   */
   async getAll(req, res, next) {
     try {
       const rows = await this.repository.getAll();
@@ -34,7 +52,10 @@ class AnswerSetController {
       res.sendStatus(500);
     }
   }
-
+    
+ /**
+  * Retrieves the set with the matching name from the repository.
+  */
   async getOne(req, res, next) {
     try {
       const row = await this.repository.getOne(req.set_name);
