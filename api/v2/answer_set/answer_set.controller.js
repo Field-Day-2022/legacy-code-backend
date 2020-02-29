@@ -1,8 +1,8 @@
 /*
- * File: answer_set_controller.js
+ * File: answer_set.controller.js
  * Version: 1.01
  * Date: 2020-02-27
- * Description: Controller for the answer_set router.
+ * Description: Controller for the answer_set endpoint.
  */
 
 const logger = require('../../../util/logger');
