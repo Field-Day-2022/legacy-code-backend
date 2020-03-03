@@ -1,8 +1,31 @@
+/*
+ * File: DataEntry.js
+ * Version: 1.01
+ * Date: 2020-03-02
+ * Description: DataEntry repository that acts the MySQL intermediate for the data_entry endpoint.
+ */
+
+/**
+ * Represents the DataEntry object repository.
+ */
 class DataEntryRepository {
+
+  /**
+   * Matches this class with the project dao.
+   * @constructor
+   * @param dao The project dao
+   */
   constructor(dao) {
     this.dao = dao;
   }
 
+  /**
+   * Returns all DataEntry objects from the database.
+   * @param {number} project_id The corresponding project ID.
+   * @param {number} form_id The corresponding form ID.
+   * @param {number} session_id The corresponding session ID.
+   * @returns {*}
+   */
   getAll(project_id, form_id, session_id) {
     let sql =
       process.env.REACT_APP_BATEMAN_BUILD === 'true'
@@ -32,12 +55,23 @@ class DataEntryRepository {
     return this.dao.all(sql, params);
   }
 
+  /**
+   * Returns a single DataEntry object using the session ID and entry ID.
+   * @param session_id The corresponding session ID.
+   * @param entry_id The corresponding entry ID.
+   * @returns {*} The DataEntry object.
+   */
   getOne(session_id, entry_id) {
     const sql = `SELECT * FROM DataEntry WHERE session_id = ? AND entry_id = ?`;
 
     return this.dao.get(sql, [session_id, entry_id]);
   }
 
+  /**
+   * Post endpoint for adding a DataEntry endpoint.
+   * @param {*} dataEntryObject The DataEntry object as a dict.
+   * @returns {any | Promise | Promise<any> | void}
+   */
   post(dataEntryObject) {
     const sql =
       'INSERT INTO DataEntry (session_id, entry_id, form_id, date_modified, entry_json, project_id) VALUES (?, ?,?, ?, ?, ? )';
@@ -52,6 +86,11 @@ class DataEntryRepository {
     ]);
   }
 
+  /**
+   * Update endpoint for updating a DataEntry object.
+   * @param dataEntryObject The DataEntry object.
+   * @returns {any | Promise | Promise<any> | void}
+   */
   update(dataEntryObject) {
     const sql =
       'UPDATE DataEntry SET session_id = ?, entry_id = ?, form_id =  ?, date_modified = ?, entry_json = ?, project_id = ? WHERE session_id = ? AND entry_id = ?';
@@ -68,6 +107,13 @@ class DataEntryRepository {
     ]);
   }
 
+  /**
+   * Moves the DataEntry object to a new session.
+   * @param session_id The old session ID.
+   * @param entry_id The entry ID.
+   * @param new_id The new session ID.
+   * @returns {Promise<{success: boolean}>}
+   */
   async move(session_id, entry_id, new_id) {
     const oldSql = 'SELECT * FROM DataEntry WHERE session_id = ? AND entry_id = ?';
     const oldResult = await this.dao.get(oldSql, [session_id, entry_id]);
@@ -98,6 +144,12 @@ class DataEntryRepository {
     }
   }
 
+  /**
+   * Deletes a DataEntry object from the database.
+   * @param session_id The corresponding session ID.
+   * @param entry_id The corresponding entry ID.
+   * @returns {Promise<[unknown, unknown]>}
+   */
   async delete(session_id, entry_id) {
     const deleteSql = 'DELETE FROM DataEntry WHERE session_id = ? AND entry_id = ?';
     const addSql =
