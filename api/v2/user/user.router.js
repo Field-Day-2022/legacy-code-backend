@@ -1,3 +1,9 @@
+/*
+ * File: user.router.js
+ * Version: 1.01
+ * Date: 2020-02-29
+ * Description: Router for the user endpoint
+ */
 const router = require('express').Router();
 const Controller = require('./user.controller');
 

@@ -1,6 +1,18 @@
+/*
+ * File: user.controller.js
+ * Version: 1.01
+ * Date: 2020-02-29
+ * Description: Controller class for the user endpoint
+ */
+
 const _ = require('lodash');
 const UserRepository = require('./User');
 
+/**
+ * Handles /user database requests
+ * @version 1.01
+ * @since 2020-02-29
+ */
 class UserController {
   constructor(dao) {
     this.repository = new UserRepository(dao);
@@ -12,11 +24,26 @@ class UserController {
     this.delete = this.delete.bind(this);
   }
 
+  /**
+   * Retrieves the user_id from the request and reroutes
+   * to the next route handler.
+   * @param req Incoming request object
+   * @param res Outgoing response to the request
+   * @param next Calls next route handler
+   * @param user_id of the user
+   */
   user_id(req, res, next, user_id) {
     req.user_id = user_id;
     next();
   }
 
+
+  /**
+   * Retrieves all users from the database
+   * @param req Incoming request object
+   * @param res Outgoing response to the request
+   * @param next Calls next route handler
+   */
   async getAll(req, res, next) {
     try {
       const rows = await this.repository.getAll();
@@ -27,6 +54,12 @@ class UserController {
     }
   }
 
+  /**
+   * Retrieves the first user matching the user_id
+   * @param req Incoming request object
+   * @param res Outgoing response to the request
+   * @param next Calls next route handler
+   */
   async getOne(req, res, next) {
     try {
       const row = await this.repository.getOne(req.user_id);
@@ -41,6 +74,12 @@ class UserController {
     }
   }
 
+  /**
+   * Adds new user to the database
+   * @param req Incoming request object
+   * @param res Outgoing response to the request
+   * @param next Calls next route handler
+   */
   async post(req, res, next) {
     try {
       await this.repository.post(req.body);
@@ -51,6 +90,13 @@ class UserController {
     }
   }
 
+
+  /**
+   * Updates a user in the database
+   * @param req Incoming request object
+   * @param res Outgoing response to the request
+   * @param next Calls next route handler
+   */
   async update(req, res, next) {
     try {
       await this.repository.update(req.body);
@@ -61,6 +107,12 @@ class UserController {
     }
   }
 
+  /**
+   * Deletes a user from the database with the matching user_id
+   * @param req Incoming request object
+   * @param res Outgoing response to the request
+   * @param next Calls next route handler
+   */
   async delete(req, res, next) {
     try {
       await this.repository.delete(req.user_id);
