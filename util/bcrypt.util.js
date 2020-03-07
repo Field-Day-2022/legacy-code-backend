@@ -1,3 +1,10 @@
+/*
+ * File: bcrypt.util.js
+ * Version: 1.01
+ * Date: 2020-03-07
+ * Description: Encrypts/decrypts user passwords in the database.
+ */
+
 const bcrypt = require('bcrypt');
 const ROUNDS = 10;
 
