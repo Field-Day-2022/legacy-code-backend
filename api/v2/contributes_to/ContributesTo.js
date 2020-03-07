@@ -19,7 +19,7 @@ class ContributesToRepository {
   /**
    * Returns data for all of the entries in the ContributesTo table.
    * @return a collection of JSON objects representing the contributes_to
-   *            entries.
+   * entries.
    */
   getAll() {
     const sql = `SELECT * FROM ContributesTo`;
