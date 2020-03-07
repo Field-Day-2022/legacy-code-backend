@@ -1,8 +1,21 @@
+/*
+ * File: Session.js
+ * Version: 1.01
+ * Date: 2020-02-29
+ * Description: Handles the retrieval of session information
+ */
+
 class SessionRepository {
   constructor(dao) {
     this.dao = dao;
   }
 
+  /**
+   * Retrieves all sessions matching the project_id and form_id
+   * @param project_id of the project
+   * @param form_id  of the project
+   * @returns {*}
+   */
   getAll(project_id, form_id) {
     let sql = `SELECT * FROM Session`;
     const params = [];
@@ -24,12 +37,21 @@ class SessionRepository {
     return this.dao.all(sql, params);
   }
 
+  /**
+   * Retrieves a single session matching the session_id
+   * @param session_id being searched for
+   * @returns {*}
+   */
   getOne(session_id) {
     const sql = `SELECT * FROM Session WHERE session_id = ?`;
 
     return this.dao.get(sql, [session_id]);
   }
 
+  /**
+   * Adds a new session to the database
+   * @param sessionObject Contains the session data
+   */
   post(sessionObject) {
     const sql =
       'INSERT INTO Session (session_id, session_json, project_id, date_modified, form_id) VALUES (?, ?, ?, ?, ? )';
@@ -43,6 +65,10 @@ class SessionRepository {
     ]);
   }
 
+  /**
+   * Updates information about a session within the database
+   * @param sessionObject Contains new session information
+   */
   update(sessionObject) {
     const sql =
       'UPDATE Session SET session_id = ?, session_json = ?, project_id =  ?, date_modified = ?, form_id = ? WHERE session_id = ?';
@@ -57,6 +83,10 @@ class SessionRepository {
     ]);
   }
 
+  /**
+   * Deletes a session in the database
+   * @param session_id of session to be deleted
+   */
   async delete(session_id) {
     const deleteSession = `DELETE FROM Session WHERE session_id = ?`;
     const deleteEntries = `DELETE FROM DataEntry WHERE session_id = ?`;
