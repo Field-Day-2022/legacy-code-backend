@@ -4,43 +4,43 @@ class Sync {
       this.apiUrl = "/api/v2/";
     }
   
-    async getAll() {
+    async getAll(project_id) {
         let result = {};
         result.updates = 0;
 
-        const users = await get(this.dao, getAllRows("User"));
+        const users = await get(this.dao, getAllRows("User", project_id));
         result.updates += users.length;
         result.user = users.map(user => this.apiUrl + "User/" + user.user_id);
 
-        const projects = await get(this.dao, getAllRows("Project"));
+        const projects = await get(this.dao, getAllRows("Project", project_id));
         result.updates += projects.length;
         result.project = projects.map(proj => this.apiUrl + "project/" + proj.project_id);
 
-        const contributesTos = await get(this.dao, getAllRows("ContributesTo"));
+        const contributesTos = await get(this.dao, getAllRows("ContributesTo", project_id));
         result.updates += contributesTos.length;
         result.contributesTo = contributesTos.map(
             cTo => this.apiUrl + "contributes_to/" + cTo.user_id + "/" + cTo.project_id 
         );
 
-        const dataForms = await get(this.dao, getAllRows("DataForm"));
+        const dataForms = await get(this.dao, getAllRows("DataForm", project_id));
         result.updates += dataForms.length;
         result.dataForm = dataForms.map(form => this.apiUrl + "data_form/" + form.form_id);
 
-        const belongsTo = await get(this.dao, getAllRows("BelongsTo"));
+        const belongsTo = await get(this.dao, getAllRows("BelongsTo", project_id));
         result.updates += belongsTo.length;
         result.belongsTo = belongsTo.map(
             bTo => this.apiUrl + "belongs_to/" + bTo.form_id + "/" + bTo.project_id
         );
 
-        const answerSets = await get(this.dao, getAllRows("AnswerSet"));
+        const answerSets = await get(this.dao, getAllRows("AnswerSet", project_id));
         result.updates += answerSets.length;
         result.answerSet = answerSets.map(set => this.apiUrl + "answer_set/" + set.set_name);
 
-        const sessions = await get(this.dao, getAllRows("Session"));
+        const sessions = await get(this.dao, getAllRows("Session", project_id));
         result.updates += sessions.length;
         result.session = sessions.map(session => this.apiUrl + "session/" + session.session_id);
 
-        const dataEntries = await get(this.dao, getAllRows("DataEntry"));
+        const dataEntries = await get(this.dao, getAllRows("DataEntry", project_id));
         result.updates += dataEntries.length;
         result.dataEntry = dataEntries.map(
             entry => this.apiUrl + "data_entry/" + entry.session_id + "/" + entry.entry_id
@@ -48,49 +48,49 @@ class Sync {
         return Promise.resolve(result);
     }
 
-    async getLatest(timestamp) {
+    async getLatest(timestamp, project_id) {
         let result = {};
         result.updates = 0;
 
-        const users = await get(this.dao, getLatestRows("User", timestamp));
+        const users = await get(this.dao, getLatestRows("User", timestamp, project_id));
         result.updates += users.length;
         result.user = users.map(user => this.apiUrl + "User/" + user.user_id);
 
-        const projects = await get(this.dao, getLatestRows("Project", timestamp));
+        const projects = await get(this.dao, getLatestRows("Project", timestamp, project_id));
         result.updates += projects.length;
         result.project = projects.map(proj => this.apiUrl + "project/" + proj.project_id);
 
-        const contributesTos = await get(this.dao, getLatestRows("ContributesTo", timestamp));
+        const contributesTos = await get(this.dao, getLatestRows("ContributesTo", timestamp, project_id));
         result.updates += contributesTos.length;
         result.contributesTo = contributesTos.map(
             cTo => this.apiUrl + "contributes_to/" + cTo.user_id + "/" + cTo.project_id 
         );
 
-        const dataForms = await get(this.dao, getLatestRows("DataForm", timestamp));
+        const dataForms = await get(this.dao, getLatestRows("DataForm", timestamp, project_id));
         result.updates += dataForms.length;
         result.dataForm = dataForms.map(form => this.apiUrl + "data_form/" + form.form_id);
 
-        const belongsTo = await get(this.dao, getLatestRows("BelongsTo", timestamp));
+        const belongsTo = await get(this.dao, getLatestRows("BelongsTo", timestamp, project_id));
         result.updates += belongsTo.length;
         result.belongsTo = belongsTo.map(
             bTo => this.apiUrl + "belongs_to/" + bTo.form_id + "/" + bTo.project_id
         );
 
-        const answerSets = await get(this.dao, getLatestRows("AnswerSet", timestamp));
+        const answerSets = await get(this.dao, getLatestRows("AnswerSet", timestamp, project_id));
         result.updates += answerSets.length;
         result.answerSet = answerSets.map(set => this.apiUrl + "answer_set/" + set.set_name);
 
-        const sessions = await get(this.dao, getLatestRows("Session", timestamp));
+        const sessions = await get(this.dao, getLatestRows("Session", timestamp, project_id));
         result.updates += sessions.length;
         result.session = sessions.map(session => this.apiUrl + "session/" + session.session_id);
 
-        const dataEntries = await get(this.dao, getLatestRows("DataEntry" , timestamp));
+        const dataEntries = await get(this.dao, getLatestRows("DataEntry" , timestamp, project_id));
         result.updates += dataEntries.length;
         result.dataEntry = dataEntries.map(
             entry => this.apiUrl + "data_entry/" + entry.session_id + "/" + entry.entry_id
         );  
 
-        const deletedItems = await get(this.dao, getDeletedItems(timestamp));
+        const deletedItems = await get(this.dao, getDeletedItems(timestamp, project_id));
         result.updates += deletedItems.length;
         result.deletedItem = deletedItems.map(
             item => this.apiUrl + "deleted_item/" + item.deleted_id
@@ -118,14 +118,40 @@ async function get(dao, query) {
         });
 }
 
-var getAllRows = function(tableName) {
-    return "SELECT * FROM " + tableName;
+var getAllRows = function(tableName, project_id) {
+    if (project_id === undefined || tableName == "AnswerSet"
+        || tableName === "User") {
+	return "SELECT * FROM " + tableName;
+    } else if (tableName === "DataForm") { 
+        return "SELECT DataForm.form_id, DataForm.form_name,"
+        + " DataForm.template_json, DataForm.date_modified"
+        + " FROM DataForm INNER JOIN BelongsTo"
+        + " ON BelongsTo.form_id = DataForm.form_id"
+        + " WHERE project_id = " + project_id;
+    } else {
+        return "SELECT * FROM " + tableName
+            + " WHERE project_id = " + project_id;
+    }
 };
 
-var getLatestRows = function(tableName, timestamp) {
-    return "SELECT * "
-         + "FROM " + tableName 
-         + " WHERE date_modified >= " + timestamp;
+var getLatestRows = function(tableName, timestamp, project_id) {
+    if (project_id === undefined || tableName == "AnswerSet"
+        || tableName === "User") {    
+        return "SELECT * "
+        + "FROM " + tableName 
+        + " WHERE date_modified >= " + timestamp;
+    } else if (tableName === "DataForm") {
+        return "SELECT DataForm.form_id, DataForm.form_name,"
+        + " DataForm.template_json, DataForm.date_modified"
+        + " FROM DataForm INNER JOIN BelongsTo"
+        + " ON BelongsTo.form_id = DataForm.form_id"
+        + " WHERE project_id = " + project_id
+        + " AND date_modified >= " + timestamp;
+    } else {
+        return "SELECT * FROM " + tableName
+        + " WHERE date_modified >= " + timestamp
+	+ " AND project_id = " + project_id;
+    }
 };
 
 var getDeletedItems = function(timestamp) {
