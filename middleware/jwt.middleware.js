@@ -21,7 +21,7 @@ function verifyJWT_MW(req, res, next) {
     if (!verify['auth']) {
       throw new InvalidJWTToken('Invalid JWT token');
     } else {
-      next()
+      next();
     }
   } catch (err) {
     res.json(err)
