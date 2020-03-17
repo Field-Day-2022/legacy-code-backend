@@ -1,3 +1,9 @@
+/*
+ * File: session.router.js
+ * Version: 1.01
+ * Date: 2020-02-29
+ * Description: Router for the session endpoint
+ */
 const router = require('express').Router();
 const Controller = require('./session.controller');
 
