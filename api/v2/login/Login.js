@@ -4,6 +4,7 @@
  * Date: 2020-02-29
  * Description: Handles login verification
  */
+const bcrypt = require('../../../util/bcrypt.util');
 
 class LoginRepository {
   constructor(dao) {
@@ -16,11 +17,13 @@ class LoginRepository {
    * @param password of the user
    */
   async login({ username, password }) {
-    const sql = `SELECT * FROM User WHERE user_id = "${username}" AND password = "${password}"`;
+    const sql = `SELECT * FROM User WHERE user_id = "${username}"`;
 
     const user = await this.dao.get(sql, []);
 
-    return { auth: !!user, access_level: user ? user.access_level : 1 };
+    return await bcrypt.comparePassword(password, user.password) ?
+        { auth: true, access_level: user.access_level } :
+        { auth: false, access_level: 0 };
   }
 }
 
