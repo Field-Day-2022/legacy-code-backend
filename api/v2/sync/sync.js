@@ -10,7 +10,7 @@ class Sync {
       this.dao = dao;
       this.apiUrl = "/api/v2/";
     }
-
+  
     /**
      * Retrieves all entries within the database
      * @param project_id
@@ -19,7 +19,7 @@ class Sync {
     async getAll(project_id) {
         let result = {};
         result.updates = 0;
-	
+
         const users = await get(this.dao, getAllRows("User", project_id));
         result.updates += users.length;
         result.user = users.map(user => this.apiUrl + "User/" + user.user_id);
@@ -43,7 +43,7 @@ class Sync {
         result.belongsTo = belongsTo.map(
             bTo => this.apiUrl + "belongs_to/" + bTo.form_id + "/" + bTo.project_id
         );
-	
+
         const answerSets = await get(this.dao, getAllRows("AnswerSet", project_id));
         result.updates += answerSets.length;
         result.answerSet = answerSets.map(set => this.apiUrl + "answer_set/" + set.set_name);
@@ -70,7 +70,7 @@ class Sync {
         let result = {};
         result.updates = 0;
 	
-	const users = await get(this.dao, getLatestRows("User", timestamp, project_id));
+	      const users = await get(this.dao, getLatestRows("User", timestamp, project_id));
         result.updates += users.length;
         result.user = users.map(user => this.apiUrl + "User/" + user.user_id);
 
@@ -94,7 +94,7 @@ class Sync {
             bTo => this.apiUrl + "belongs_to/" + bTo.form_id + "/" + bTo.project_id
         );
 
-	const answerSets = await get(this.dao, getLatestRows("AnswerSet", timestamp, project_id));
+        const answerSets = await get(this.dao, getLatestRows("AnswerSet", timestamp, project_id));
         result.updates += answerSets.length;
         result.answerSet = answerSets.map(set => this.apiUrl + "answer_set/" + set.set_name);
 

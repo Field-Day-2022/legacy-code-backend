@@ -4,7 +4,7 @@
  * Date: 2020-03-07
  * Description: Encrypts/decrypts user passwords in the database.
  */
-
+  
 const bcrypt = require('bcrypt');
 const ROUNDS = 10;
 
