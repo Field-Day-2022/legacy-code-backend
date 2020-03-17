@@ -1,3 +1,10 @@
+/*
+ * File: invalidJWTToken.js
+ * Version: 1.01
+ * Date: 2020-02-29
+ * Description: Returns error message when an error occurs with JWT authentication.
+ */
+
 /**
  * Error used to catch additional JWT authentication errors.
  */

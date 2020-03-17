@@ -1,3 +1,10 @@
+/*
+ * File: deleted_item_router.js
+ * Version: 1.01
+ * Date: 2020-03-02
+ * Description: Express router class for the deleted_item endpoint.
+ */
+
 const router = require('express').Router();
 const Controller = require('./deleted_item.controller');
 

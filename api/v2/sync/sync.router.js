@@ -1,3 +1,10 @@
+/*
+ * File: sync.router.js
+ * Version: 1.01
+ * Date: 2020-02-29
+ * Description: Sync endpoint router
+ */
+
 var router = require('express').Router();
 const Controller = require('./sync.controller');
 

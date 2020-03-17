@@ -1,3 +1,10 @@
+/*
+ * File: global.middleware.js
+ * Version: 1.01
+ * Date: 2020-02-29
+ * Description: Verifies JWT tokens for access to the database and application
+ */
+
 const JWTToken = require('../api/v2/token/Token');
 const InvalidJWTToken = require('../error/invalidJWTToken');
 
@@ -21,7 +28,7 @@ function verifyJWT_MW(req, res, next) {
     if (!verify['auth']) {
       throw new InvalidJWTToken('Invalid JWT token');
     } else {
-      next()
+      next();
     }
   } catch (err) {
     res.json(err)

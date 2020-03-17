@@ -1,3 +1,10 @@
+/*
+ * File: locationSetFixture.js
+ * Version: 1.01
+ * Date: 2020-03-07
+ * Description: Collection of data for the locations.
+ */
+
 module.exports = [
   {
     primary: 'Avondale',
