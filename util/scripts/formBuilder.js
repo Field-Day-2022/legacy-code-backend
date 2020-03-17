@@ -1,5 +1,17 @@
+/*
+ * File: formBuilder.js
+ * Version: 1.01
+ * Date: 2020-03-07
+ * Description: Creates data and session forms for the app to use.
+ */
+
+//retrieve file containing the database schemas
 const SCHEMAS = require('../../../util/inputSchemas-cjs').SCHEMAS;
 
+/**
+ * Parses and builds the schemas from the file.
+ * @return the constructed schema.
+ */
 const parseInput = line => {
   const split = line.trim().split('|');
   const input = {
@@ -13,6 +25,10 @@ const parseInput = line => {
   return input;
 };
 
+/**
+ * Builds a data form.
+ * @return the completed data form.
+ */
 module.exports.createDataForm = fixture => {
   const lines = fixture.split('\n');
 
@@ -30,6 +46,10 @@ module.exports.createDataForm = fixture => {
   return form;
 };
 
+/** 
+ * Builds a session form.
+ * @return the completed session form.
+ */
 module.exports.createSessionForm = fixture => {
   const lines = fixture.split('\n');
 

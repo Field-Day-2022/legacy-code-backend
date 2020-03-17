@@ -1,3 +1,10 @@
+/*
+ * File: logger.js
+ * Version: 1.01
+ * Date: 2020-03-07
+ * Description: Generates log files for the program.
+ */
+
 // no var needed here, colors will attached colors
 // to String.prototype
 require('colors');
@@ -13,6 +20,9 @@ var noop = function() {};
 var consoleLog = config.logging ? console.log.bind(console) : noop;
 
 var logger = {
+  /**
+   * Initiates the log and writes a standard entry.
+   */
   log: function() {
     var tag = '[ ✨ LOG ✨ ]'.green;
     // arguments is an array like object with all the passed
@@ -33,7 +43,10 @@ var logger = {
     // and the new colored args :)
     consoleLog.apply(console, args);
   },
-
+  
+  /**
+   * Creates a log entry for an error.
+   */
   error: function() {
     var args = _.toArray(arguments).map(function(arg) {
       arg = arg.stack || arg;
