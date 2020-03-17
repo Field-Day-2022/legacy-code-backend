@@ -1,3 +1,10 @@
+/*
+ * File: animalSessionFixture.js
+ * Version: 1.01
+ * Date: 2020-03-07
+ * Description: Outline for the animal session form.
+ */
+
 module.exports = `Animal Finding Session
 Date|DATE
 SessionId|NUMBER

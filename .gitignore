@@ -1,2 +1,7 @@
 .idea/
 node_modules/
+migrated-full.db
+private.key
+public.key
+
+.DS_Store

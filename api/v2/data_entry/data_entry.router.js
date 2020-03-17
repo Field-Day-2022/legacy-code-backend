@@ -1,3 +1,10 @@
+/*
+ * File: data_entry_router.js
+ * Version: 1.01
+ * Date: 2020-03-02
+ * Description: Express router class for the data_entry endpoint.
+ */
+
 const router = require('express').Router();
 const Controller = require('./data_entry.controller');
 

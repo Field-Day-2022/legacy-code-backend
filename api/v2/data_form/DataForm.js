@@ -1,8 +1,29 @@
+/*
+ * File: DataForm.js
+ * Date: 2020-03-02
+ * Version: 1.01
+ * Description:
+ */
+
+/**
+ * Represents the DataForm object repository.
+ */
 class DataFormRepository {
+
+  /**
+   * Matches this class with the project dao.
+   * @constructor
+   * @param dao The project dao
+   */
   constructor(dao) {
     this.dao = dao;
   }
 
+  /**
+   * Returns all DataEntry objects from the database.
+   * @param {number} project_id The corresponding project ID.
+   * @returns {*}
+   */
   getAll(project_id) {
     let sql = `SELECT * FROM DataForm`;
     const params = [];
@@ -15,12 +36,22 @@ class DataFormRepository {
     return this.dao.all(sql, params);
   }
 
+  /**
+   * Returns a single DataForm object using the form ID.
+   * @param form_id The corresponding form ID.
+   * @returns {*} The DataForm object.
+   */
   getOne(form_id) {
     const sql = `SELECT * FROM DataForm WHERE form_id = ?`;
 
     return this.dao.get(sql, [form_id]);
   }
 
+  /**
+   * Post endpoint for adding a DataForm endpoint.
+   * @param {*} dataFormObject The DataForm object as a dict.
+   * @returns {any | Promise | Promise<any> | void}
+   */
   post(dataFormObject, project_id) {
     const formSql =
       'INSERT INTO DataForm (form_id, form_name, template_json, date_modified, is_session_form) VALUES (?, ?, ?, ?, ? )';
@@ -45,6 +76,11 @@ class DataFormRepository {
     ]);
   }
 
+  /**
+   * Update endpoint for updating a DataForm object.
+   * @param dataFormObject The DataForm object.
+   * @returns {any | Promise | Promise<any> | void}
+   */
   update(dataFormObject) {
     const sql =
       'UPDATE DataForm SET form_id = ?, form_name = ?, template_json = ?, date_modified = ?, is_session_form = ? WHERE form_id = ?';
@@ -59,6 +95,11 @@ class DataFormRepository {
     ]);
   }
 
+  /**
+   * Deletes a DataForm object from the database.
+   * @param form_id The corresponding form ID.
+   * @returns {Promise<[unknown, unknown]>}
+   */
   delete(form_id) {
     const sql = `DELETE FROM DataForm WHERE form_id = ?`;
 

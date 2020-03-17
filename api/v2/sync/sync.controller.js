@@ -16,7 +16,8 @@ class SyncController {
 
   async getAll(req, res, next) {
     try {
-      const rows = await this.repository.getAll();
+      let project_id = req.query.project_id;
+      const rows = await this.repository.getAll(project_id);
       res.json(rows);
     } catch (err) {
       console.error(err);
@@ -26,7 +27,8 @@ class SyncController {
 
   async getLatest(req, res, next) {
     try {
-      const rows = await this.repository.getLatest(req.timestamp);
+      let project_id = req.query.project_id;
+      const rows = await this.repository.getLatest(req.timestamp, project_id);
       res.json(rows);
     } catch (err) {
       console.error(err);
