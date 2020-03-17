@@ -5,7 +5,7 @@ const OPTIONS = {
   issuer: "FieldDay - Web",
   subject: "krshelle@asu.edu",
   audience: "fieldday.asu.edu",
-  expiresIn: "15m",
+  expiresIn: "168h",
   algorithm: "RS256"
 };
 
