@@ -1,3 +1,9 @@
+/*
+ * File: Login.js
+ * Version: 1.01
+ * Date: 2020-02-29
+ * Description: Handles login verification
+ */
 const bcrypt = require('../../../util/bcrypt.util');
 
 class LoginRepository {
@@ -5,6 +11,11 @@ class LoginRepository {
     this.dao = dao;
   }
 
+  /**
+   * Verifies the provided username and password
+   * @param username of the user
+   * @param password of the user
+   */
   async login({ username, password }) {
     const sql = `SELECT * FROM User WHERE user_id = "${username}"`;
 
