@@ -1,3 +1,10 @@
+/*
+ * File: global.middleware.js
+ * Version: 1.01
+ * Date: 2020-02-29
+ * Description: Libraries required by middleware
+ */
+
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var cors = require('cors');
