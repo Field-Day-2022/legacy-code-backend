@@ -1,9 +1,21 @@
+/*
+ * File: sync.js
+ * Version: 1.01
+ * Date: 2020-02-29
+ * Description:
+ */
+
 class Sync {
     constructor(dao) {
       this.dao = dao;
       this.apiUrl = "/api/v2/";
     }
-  
+
+    /**
+     * Retrieves all entries within the database
+     * @param project_id
+     * @returns {Promise<Promise<any>>}
+     */
     async getAll(project_id) {
         let result = {};
         result.updates = 0;
@@ -48,6 +60,12 @@ class Sync {
         return Promise.resolve(result);
     }
 
+    /**
+     * Retrieves the latest project matching the timestamp and project_id
+     * @param timestamp 
+     * @param project_id
+     * @returns {Promise<void>}
+     */
     async getLatest(timestamp, project_id) {
         let result = {};
         result.updates = 0;
@@ -99,8 +117,6 @@ class Sync {
         return result;
 
     }
-
-
 }
 
 /**
@@ -118,6 +134,12 @@ async function get(dao, query) {
         });
 }
 
+/**
+ * Retrieves all sync belonging to a specific project
+ * @param tableName Table to be searched
+ * @param project_id ID belonging to the project
+ * @returns {string}
+ */
 var getAllRows = function(tableName, project_id) {
     if (tableName === "AnswerSet" || tableName === "User") {
 	return "SELECT * FROM " + tableName;
@@ -133,6 +155,13 @@ var getAllRows = function(tableName, project_id) {
     }
 };
 
+/**
+ * Retrieves most recent sync
+ * @param tableName Table to be searched
+ * @param timestamp Date of the sync
+ * @param project_id ID belonging to the project
+ * @returns {string}
+ */
 var getLatestRows = function(tableName, timestamp, project_id) {
     if (tableName === "AnswerSet" || tableName === "User") {
 	return "SELECT * FROM " + tableName + " WHERE date_modified >= " + timestamp;
@@ -150,10 +179,15 @@ var getLatestRows = function(tableName, timestamp, project_id) {
     }
 };
 
+/**
+ * Retrieves all deleted items on or after the timestamp
+ * @param timestamp Date to be searched
+ * @returns {string}
+ */
 var getDeletedItems = function(timestamp) {
     return "SELECT * "
     + "FROM DeletedItem "  
     + " WHERE date_deleted >= " + timestamp;
-}
+};
 
 module.exports = Sync;
