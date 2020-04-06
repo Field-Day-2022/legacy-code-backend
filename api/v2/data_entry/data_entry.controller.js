@@ -121,6 +121,7 @@ class DataEntryController {
   async update(req, res, next) {
     try {
       await this.repository.update(req.body);
+      console.log(req.body);
       res.sendStatus(204);
     } catch (err) {
       console.error(err);
