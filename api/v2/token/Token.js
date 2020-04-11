@@ -9,7 +9,6 @@ const OPTIONS = {
   algorithm: "RS256"
 };
 
-
 class JWTToken {
 
   /**
@@ -42,8 +41,8 @@ class JWTToken {
    */
   verifyJwtToken(token) {
     try {
-      let publicKey = fs.readFileSync('./public.key', 'utf8');
-      return jwt.verify(token, publicKey, OPTIONS);
+      let privateKey = fs.readFileSync('./private.key', 'utf8');
+      return jwt.verify(token, privateKey, OPTIONS);
     } catch(err) {
       throw err;
     }
