@@ -10,7 +10,7 @@ const DAO = require('./util/DataAccessObject-mysql');
 const db = new DAO();
 // make database globally available (maybe change soon)
 global.db = db;
-
+const fs = require('fs');
 const mysql = require('mysql2/promise');
 const pool = mysql.createPool({
   host: process.env.RDS_HOSTNAME,
@@ -18,7 +18,7 @@ const pool = mysql.createPool({
   password: process.env.RDS_PASSWORD,
   port: process.env.RDS_PORT,
   database: process.env.RDS_DATABASE_NAME,
-  ssl: 'Amazon RDS',
+  ssl: { ca: fs.readFileSync(__dirname + '/config/rds-ca-2019-root.pem') },
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0
