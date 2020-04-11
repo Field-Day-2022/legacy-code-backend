@@ -76,11 +76,15 @@ class DataEntryRepository {
     const sql =
       'INSERT INTO DataEntry (session_id, entry_id, form_id, date_modified, entry_json, project_id) VALUES (?, ?,?, ?, ?, ? )';
 
+    if(dataEntryObject.date_modified === null){
+      dataEntryObject.date_modified = Math.round(Date.now() / 1000);
+    }
+
     return this.dao.run(sql, [
       dataEntryObject.session_id,
       dataEntryObject.entry_id,
       dataEntryObject.form_id,
-      Math.round(Date.now() / 1000),
+      dataEntryObject.date_modified,
       JSON.stringify(dataEntryObject.entry_json),
       dataEntryObject.project_id,
     ]);

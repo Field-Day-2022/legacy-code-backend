@@ -41,8 +41,8 @@ class JWTToken {
    */
   verifyJwtToken(token) {
     try {
-      let privateKey = fs.readFileSync('./private.key', 'utf8');
-      return jwt.verify(token, privateKey, OPTIONS);
+      let publicKey = fs.readFileSync('./public.key', 'utf8');
+      return jwt.verify(token, publicKey, OPTIONS);
     } catch(err) {
       throw err;
     }
