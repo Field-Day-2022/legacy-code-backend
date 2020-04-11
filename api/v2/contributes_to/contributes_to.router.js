@@ -21,7 +21,11 @@ router
   .get(controller.getAll)
   .post(controller.post);
 
+<<<<<<< HEAD
 //if user and project ids are present, retrieve the single matching data entry
+=======
+//if user and project ids are present, retrieve the single matching data
+>>>>>>> dev
 router
   .route('/:user_id/:project_id')
   .get(controller.getOne)

@@ -78,6 +78,8 @@ class SessionRepository {
       sessionObject.date_created = sessionObject.session_id;
     }
 
+    console.log(sessionObject)
+
     return this.dao.run(sql, [
       sessionObject.session_id,
       sessionObject.date_created,

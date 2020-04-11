@@ -95,6 +95,7 @@ class DataEntryRepository {
     const sql =
       'UPDATE DataEntry SET session_id = ?, entry_id = ?, form_id =  ?, date_modified = ?, entry_json = ?, project_id = ? WHERE session_id = ? AND entry_id = ?';
 
+    console.log(dataEntryObject)
     return this.dao.run(sql, [
       dataEntryObject.session_id,
       dataEntryObject.entry_id,
