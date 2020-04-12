@@ -56,9 +56,14 @@ class SessionRepository {
     const sql =
       'INSERT INTO Session (session_id, date_created, session_json, project_id, date_modified, form_id) VALUES (?, ?, ?, ?, ?, ? )';
 
+    let date_created = sessionObject.date_created;
+    if (date_created === null) {
+      date_created = sessionObject.session_id;
+    }
+
     return this.dao.run(sql, [
       sessionObject.session_id,
-      sessionObject.date_created,
+      date_created,
       JSON.stringify(sessionObject.session_json),
       sessionObject.project_id,
       sessionObject.date_modified,
