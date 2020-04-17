@@ -56,9 +56,14 @@ class SessionRepository {
     const sql =
       'INSERT INTO Session (session_id, date_created, session_json, project_id, date_modified, form_id) VALUES (?, ?, ?, ?, ?, ? )';
 
+    let date_created = sessionObject.date_created;
+    if (date_created === undefined || date_created === null) {
+      date_created = sessionObject.session_id;
+    }
+
     return this.dao.run(sql, [
       sessionObject.session_id,
-      sessionObject.date_created,
+      date_created,
       JSON.stringify(sessionObject.session_json),
       sessionObject.project_id,
       sessionObject.date_modified,
@@ -74,15 +79,14 @@ class SessionRepository {
     const sql =
       'UPDATE Session SET session_id = ?, date_created = ?, session_json = ?, project_id =  ?, date_modified = ?, form_id = ? WHERE session_id = ?';
 
-    if(sessionObject.date_created === null) {
-      sessionObject.date_created = sessionObject.session_id;
+    let date_created = sessionObject.date_created;
+    if (date_created === undefined || date_created === null) {
+      date_created = sessionObject.session_id;
     }
-
-    console.log(sessionObject)
 
     return this.dao.run(sql, [
       sessionObject.session_id,
-      sessionObject.date_created,
+      date_created,
       JSON.stringify(sessionObject.session_json),
       sessionObject.project_id,
       sessionObject.date_modified,
