@@ -86,6 +86,8 @@ class DataEntryController {
       if (row == null) {
         res.sendStatus(404);
       } else {
+        // calculation to return the created date of the entry
+        row['date_created'] = row['date_created'] + (row['entry_id']-row['session_id']);
         res.json(row);
       }
     } catch (err) {
@@ -121,7 +123,6 @@ class DataEntryController {
   async update(req, res, next) {
     try {
       await this.repository.update(req.body);
-      console.log(req.body);
       res.sendStatus(204);
     } catch (err) {
       console.error(err);
