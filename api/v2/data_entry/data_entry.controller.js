@@ -53,6 +53,16 @@ class DataEntryController {
   }
 
   /**
+   * Returns a data entry object with the appropriate calculated date created.
+   * @param {json} dataEntry The data entry object.
+   * @returns The data entry object with the calculated date_created field.
+   */
+  mapDateCreated(dataEntry) {
+    dataEntry['date_created'] = dataEntry['date_created'] + (dataEntry['entry_id'] - dataEntry['session_id']);
+    return dataEntry;
+  }
+
+  /**
    * Controller that maps the request to the get_all method in the DataEntry object.
    * @param {XMLHttpRequest} req The HTTP request object.
    * @param {XMLHttpRequestResponseType} res The HTTP response object.
@@ -66,7 +76,7 @@ class DataEntryController {
         req.query.form_id,
         req.query.session_id
       );
-      res.json(rows);
+      res.json(rows.map(this.mapDateCreated));
     } catch (err) {
       console.error(err);
       res.sendStatus(500);
@@ -86,7 +96,7 @@ class DataEntryController {
       if (row == null) {
         res.sendStatus(404);
       } else {
-        res.json(row);
+        res.json(this.mapDateCreated(row));
       }
     } catch (err) {
       console.error(err);
@@ -121,7 +131,6 @@ class DataEntryController {
   async update(req, res, next) {
     try {
       await this.repository.update(req.body);
-      console.log(req.body);
       res.sendStatus(204);
     } catch (err) {
       console.error(err);

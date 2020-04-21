@@ -77,7 +77,7 @@ class SessionRepository {
    */
   update(sessionObject) {
     const sql =
-      'UPDATE Session SET session_id = ?, date_created = ?, session_json = ?, project_id =  ?, date_modified = ?, form_id = ? WHERE session_id = ?';
+      'UPDATE Session SET date_created = ?, session_json = ?, project_id =  ?, date_modified = ?, form_id = ? WHERE session_id = ?';
 
     let date_created = sessionObject.date_created;
     if (date_created === undefined || date_created === null) {
@@ -85,7 +85,6 @@ class SessionRepository {
     }
 
     return this.dao.run(sql, [
-      sessionObject.session_id,
       date_created,
       JSON.stringify(sessionObject.session_json),
       sessionObject.project_id,
