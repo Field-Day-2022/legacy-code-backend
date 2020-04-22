@@ -23,5 +23,6 @@ router.use('/belongs_to', verifyJWT_MW, require('./belongs_to/belongs_to.router'
 router.use('/login', require('./login/login.router'));
 router.use('/token', require('./token/token.router'));
 
+
 //	export router for '/api'
 module.exports = router;

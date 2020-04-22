@@ -49,6 +49,7 @@ class SyncController {
       res.sendStatus(500);
     }
   }
+
   /**
    * Retrieves the latest project matching the timestamp and project_id
    * @param req Incoming request object

@@ -5,7 +5,7 @@
  * Description: Encrypts/decrypts user passwords in the database.
  */
   
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const ROUNDS = 10;
 
 /**

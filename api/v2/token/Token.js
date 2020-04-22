@@ -9,7 +9,6 @@ const OPTIONS = {
   algorithm: "RS256"
 };
 
-
 class JWTToken {
 
   /**

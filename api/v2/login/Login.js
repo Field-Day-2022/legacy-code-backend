@@ -22,8 +22,8 @@ class LoginRepository {
     const user = await this.dao.get(sql, []);
 
     return await bcrypt.comparePassword(password, user.password) ?
-        { auth: true, access_level: user.access_level } :
-        { auth: false, access_level: 0 };
+      { auth: true, access_level: user.access_level } : { auth: false, access_level: 0 };
+
   }
 }
 

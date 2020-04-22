@@ -29,8 +29,8 @@ class DataEntryRepository {
   getAll(project_id, form_id, session_id) {
     let sql =
       process.env.REACT_APP_BATEMAN_BUILD === 'true'
-        ? 'SELECT DataEntry.*, Session.session_json FROM DataEntry INNER JOIN Session ON DataEntry.session_id = Session.session_id'
-        : 'SELECT DataEntry.* FROM DataEntry';
+        ? 'SELECT DataEntry.*, Session.session_json, Session.date_created FROM DataEntry INNER JOIN Session ON DataEntry.session_id = Session.session_id'
+        : 'SELECT DataEntry.*, Session.session_json, Session.date_created FROM DataEntry INNER JOIN Session ON DataEntry.session_id = Session.session_id';
     const params = [];
 
     if (project_id || form_id || session_id) {
@@ -62,7 +62,7 @@ class DataEntryRepository {
    * @returns {*} The DataEntry object.
    */
   getOne(session_id, entry_id) {
-    const sql = `SELECT * FROM DataEntry WHERE session_id = ? AND entry_id = ?`;
+    const sql = `SELECT DataEntry.*, Session.date_created FROM DataEntry INNER JOIN Session ON DataEntry.session_id = Session.session_id WHERE DataEntry.session_id = ? AND DataEntry.entry_id = ?`;
 
     return this.dao.get(sql, [session_id, entry_id]);
   }
@@ -93,11 +93,11 @@ class DataEntryRepository {
    */
   update(dataEntryObject) {
     const sql =
-      'UPDATE DataEntry SET session_id = ?, entry_id = ?, form_id =  ?, date_modified = ?, entry_json = ?, project_id = ? WHERE session_id = ? AND entry_id = ?';
+      'UPDATE DataEntry SET session_id = ?, form_id =  ?, date_modified = ?, entry_json = ?, project_id = ? WHERE session_id = ? AND entry_id = ?';
 
+    console.log(dataEntryObject)
     return this.dao.run(sql, [
       dataEntryObject.session_id,
-      dataEntryObject.entry_id,
       dataEntryObject.form_id,
       Math.round(Date.now() / 1000),
       JSON.stringify(dataEntryObject.entry_json),
