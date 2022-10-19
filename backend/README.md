@@ -37,7 +37,8 @@ front-end. The [npm Javascript utility](https://www.npmjs.com/get-npm) needs to 
 
 ### System Architecture
 Below is a diagram of how the project is hosted on AWS:  
-![AWS Cloud](/Users/jacknorman/Desktop/legacy-code/backend/docs/Screen Shot 2022-10-18 at 9.49.07 PM.png "System Architecture")
+![AWS Cloud](docs/AWScloud.png "System Architecture")
+
 
 All components of the project are contained in the same hosted on the same VPC (the default) and can be interacted with 
 by either the S3 bucket, which is set up to be accessed publicly, or from the API gateway, which has access to the back-end.
